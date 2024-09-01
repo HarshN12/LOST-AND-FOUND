@@ -78,6 +78,7 @@
 </head>
 <body>
     <div class="container">
+        <%- include('partials/_navbar') %>
         <h1>Your Listings</h1>
         <ul>
             <% items.forEach(item => { %>
@@ -97,8 +98,8 @@
             <% }) %>
         </ul>
         <div style="text-align: center; margin-top: 20px;">
-            <a href="/found">Report Another Found Item</a> |
-            <a href="/found-items">View Found Items by Others</a>
+            <a href="/lost">Report Another Lost Item</a> |
+            <a href="/lost-items">View Lost Items by Others</a>
         </div>
     </div>
 </body>

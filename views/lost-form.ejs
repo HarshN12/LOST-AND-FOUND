@@ -85,8 +85,8 @@
 <body>
     <div class="container">
         <%- include('partials/_navbar') %>
-        <h1>Found an Item</h1>
-        <form action="/found" method="POST" enctype="multipart/form-data">
+        <h1>Lost an Item</h1>
+        <form action="/lost" method="POST" enctype="multipart/form-data">
             <label for="itemName">Item Name:</label>
             <input type="text" id="itemName" name="itemName" required><br>
 
@@ -103,7 +103,7 @@
         </form>
 
         <div class="links">
-            <a href="/found-items">View Found Items by Others</a>
+            <a href="/lost-items">View Lost Items by Others</a>
         </div>
     </div>
 </body>

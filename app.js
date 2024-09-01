@@ -132,7 +132,9 @@ app.post('/signup', async (req, res) => {
 
 
 
-
+app.get('/lost', (req, res) => {
+    res.render('lost-form'); // Render the form for found items
+  });
   app.get('/found', (req, res) => {
     res.render('found-form'); // Render the form for found items
   });
@@ -159,7 +161,27 @@ app.post('/signup', async (req, res) => {
       res.status(500).send('Error submitting found item');
     }
   });
+  app.post('/lost', upload.single('photo'), async (req, res) => {
+    const { itemName, description, location } = req.body;
+    const photo = req.file ? req.file.filename : null;
+    const userId = req.session.user_id;
   
+    if (!userId) {
+      return res.status(403).send('You must be logged in to submit a lost item');
+    }
+  
+    try {
+      const result = await db.query(
+        'INSERT INTO lost_items (item_name, description, location, photo, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [itemName, description, location, photo, userId]
+      );
+      console.log('Found item submitted:', result.rows[0]);
+      res.redirect('/lost-items');
+    } catch (err) {
+      console.error('Error submitting found item', err.stack);
+      res.status(500).send('Error submitting found item');
+    }
+  });
   
   // Route to list found items by other users
   app.get('/found-items', async (req, res) => {
@@ -171,9 +193,17 @@ app.post('/signup', async (req, res) => {
       res.status(500).send('Error fetching found items');
     }
   });
+  app.get('/lost-items', async (req, res) => {
+    try {
+      const result = await db.query('SELECT * FROM lost_items ORDER BY created_at DESC');
+      res.render('lost-items-list', { items: result.rows });
+    } catch (err) {
+      console.error('Error fetching lost items', err.stack);
+      res.status(500).send('Error fetching lost items');
+    }
+  });
 
-
-  app.get('/your-listing', async (req, res) => {
+  app.get('/your-found-listings', async (req, res) => {
     const userId = req.session.user_id;
   
     if (!userId) {
@@ -182,7 +212,23 @@ app.post('/signup', async (req, res) => {
   
     try {
       const result = await db.query('SELECT * FROM found_items WHERE user_id = $1 ORDER BY created_at DESC', [userId]);
-      res.render('your-listing', { items: result.rows });
+      res.render('your-found-listings', { items: result.rows });
+    } catch (err) {
+      console.error('Error fetching your listings', err.stack);
+      res.status(500).send('Error fetching your listings');
+    }
+  });
+
+  app.get('/your-lost-listings', async (req, res) => {
+    const userId = req.session.user_id;
+  
+    if (!userId) {
+      return res.status(403).send('You must be logged in to view your listings');
+    }
+  
+    try {
+      const result = await db.query('SELECT * FROM lost_items WHERE user_id = $1 ORDER BY created_at DESC', [userId]);
+      res.render('your-lost-listings', { items: result.rows });
     } catch (err) {
       console.error('Error fetching your listings', err.stack);
       res.status(500).send('Error fetching your listings');

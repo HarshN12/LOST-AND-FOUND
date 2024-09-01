@@ -1,43 +1,7 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
+<style>
+   /* styles.css */
 
-h1 {
-    color: #333;
-}
-
-form {
-    margin: 20px auto;
-    width: 300px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-
-/* styles.css */
-
-body {
+   body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
@@ -46,13 +10,14 @@ body {
 
 .navbar {
     background-color: #333;
-    overflow: hidden;
+    display: flex;
+    justify-content: space-between; /* Space the items evenly */
+    align-items: center;
+    padding: 0 16px; /* Add some padding to the sides */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar a {
-    float: left;
-    display: block;
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
@@ -66,8 +31,7 @@ body {
 }
 
 .dropdown {
-    float: left;
-    overflow: hidden;
+    position: relative;
 }
 
 .dropdown .dropbtn {
@@ -78,12 +42,13 @@ body {
     padding: 14px 16px;
     background-color: inherit;
     font-family: inherit;
-    margin: 0;
+    cursor: pointer;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
+    right: 0;
     background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -91,7 +56,6 @@ body {
 }
 
 .dropdown-content a {
-    float: none;
     color: black;
     padding: 12px 16px;
     text-decoration: none;
@@ -106,3 +70,22 @@ body {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+.navbar a:last-child {
+    margin-left: auto; /* Push the last link to the far right */
+}
+
+
+</style>
+
+<div class="navbar">
+    <a href="/lost">Lost</a>
+    <a href="/found">Found</a>
+    <div class="dropdown">
+        <button class="dropbtn">Your Listings</button>
+        <div class="dropdown-content">
+            <a href="/your-lost-listings">Lost</a>
+            <a href="/your-found-listings">Found</a>
+        </div>
+    </div>
+</div>
